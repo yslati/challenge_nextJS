@@ -5,7 +5,7 @@ export default function Navbar() {
 	let nav_items = [
 		{
 			name: "All",
-			selected: false
+			selected: true
 		},
 		{
 			name: "Animation",
@@ -15,24 +15,48 @@ export default function Navbar() {
 			name: "Branding",
 			selected: false
 		},
+		{
+			name: "Ilustration",
+			selected: false
+		},
+		{
+			name: "Mobile",
+			selected: false
+		},
+		{
+			name: "Print",
+			selected: false
+		},
+		{
+			name: "Product design",
+			selected: false
+		},
+		{
+			name: "Topography",
+			selected: false
+		},
+		{
+			name: "Web design",
+			selected: false
+		},
 	]
 
 	return (
 		<div className="w-full py-8 flex">
-			<select id="types" className="border border-gray-200 text-gray-900 text-sm font-semibold rounded-lg focus:border-gray-400 block px-3 py-2">
-				<option value="popular" selected>Popular</option>
+			<select id="types" className="border border-gray-200 text-gray-900 text-sm font-semibold rounded-lg focus:border-gray-400 block px-3 py-2" aria-label="label for the select">
+				<option value="popular" defaultValue={"popular"}>Popular</option>
 				<option value="recent">Recent</option>
 			</select>
-			<div className='flex space-x-4 mx-auto'>
+			<div className='flex space-x-5 mx-auto items-center justify-center'>
 				{
-					nav_items.map((item, index) => 
-						<div key={index} className="">
-							{item.name} k
-						</div>
+					nav_items.map((item, index) =>
+						<button key={index} className={!item.selected ? "font-semibold text-center text-gray-500" : " font-semibold text-center text-black bg-gray-100 px-2 py-1 rounded"}>
+							{item.name}
+						</button>
 					)
 				}
 			</div>
-			<button className='flex ml-auto cursor-pointer items-center border border-gray-200 text-gray-900 text-sm rounded-lg focus:border-gray-400 px-3 py-2 '>
+			<button className='flex cursor-pointer items-center border border-gray-200 text-gray-900 text-sm rounded-lg focus:border-gray-400 px-3 py-2 ' type="button">
 				<AdjustmentsHorizontalIcon className='w-4 h-4 mr-2' />
 				<h2 className='font-semibold '>Filters</h2>
 			</button>

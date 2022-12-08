@@ -1,13 +1,13 @@
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/solid"
 
-export default function Item() {
+export default function Item(data: any) {
 	let banana = './images/banana.jpg'
 	let des = "description"
 	let logo = "./images/logo.jpg"
 
 	return (
 		<div className="w-full select-none">
-			<img className="object-cover rounded-lg" src={banana} alt={des} />
+			<img className="object-cover rounded-lg" src={data.image} alt={des} />
 			<div className='w-full flex items-center mt-2'>
 				<div className='flex items-center space-x-2 '>
 					<img className='rounded-full w-6 h-6 cursor-pointer' src={logo} alt="user profile picture" />

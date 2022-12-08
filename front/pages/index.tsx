@@ -1,10 +1,8 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import bg from '../public/images/sign_in.jpg'
 
 export default function index() {
   return (
-    <div className="">
+    <div>
       <Head>
         <title>app</title>
         <meta name="description" content="Challenge technique" />
