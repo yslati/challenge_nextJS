@@ -1,60 +1,20 @@
 import Head from 'next/head'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from './api/hooks'
+import { getFirstImages } from './api/imagesSlice'
 import Item from './components/Item'
 import Navbar from './components/Navbar'
 
+
 export default function Home() {
 
-	const data = [
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-		{
-			username: "Yassin",
-			profile_pic: "./images/logo.jpg",
-			account_type: "PRO",
-			image: "./images/banana.jpg",
-			image_des: "description"
-		},
-	]
+	const dispatch = useAppDispatch()
+	const images = useAppSelector(state => state.images).images
+
+	useEffect(() => {
+		dispatch(getFirstImages());
+		console.log('up')
+	}, [])
 
 	return (
 		<div>
@@ -65,8 +25,8 @@ export default function Home() {
 				<Navbar />
 				<div className='grid grid-cols-5 gap-8 mx-auto'>
 					{
-						data.map(item => {
-							// <Item data={item || null} />
+						images && images.map((item) => {
+							return <Item key={item.id} data={item} />
 						})
 					}
 				</div>
