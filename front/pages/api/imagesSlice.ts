@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../services/unsplash_api";
 
 
-export const getFirstImages = createAsyncThunk(
-	'images/firstTime',
-	async (state, _api) => {
+export const getImages = createAsyncThunk(
+	'images/getImages',
+	async ({ pageNumber, orderBy } : { pageNumber: number, orderBy:string }, _api) => {
 		try {
-			let res = await api.get('/photos')
+			let res = await api.get(`/photos?page=${pageNumber}&per_page=30&order_by=${orderBy}`)
 			_api.fulfillWithValue(res.data)
 			return res.data
 		} catch (error: any) {
@@ -16,13 +16,11 @@ export const getFirstImages = createAsyncThunk(
 	}
 )
 
-export const getImagesByPage = createAsyncThunk(
-	'images/pageNumber',
-	async ({ page_number }: { page_number: number }, _api) => {
+export const updateOrderBy = createAsyncThunk(
+	'images/updateOrderBy',
+	async ({ orderBy }: { orderBy: string }, _api) => {
 		try {
-			let res = await api.get(`/photos?page=${page_number}`)
-			_api.fulfillWithValue(res.data)
-			return res.data
+			_api.fulfillWithValue(orderBy)
 		} catch (error: any) {
 			_api.rejectWithValue(error.message)
 			return error.message
@@ -33,20 +31,30 @@ export const getImagesByPage = createAsyncThunk(
 export const imagesSlice = createSlice({
 	name: 'images',
 	initialState: {
-		images: []
+		images: [],
+		order_by: "latest"
 	},
 	reducers: {
 		load: (state, action) => {
 			state.images = action.payload
 		},
+
 	},
 	extraReducers: (builder) => {
-		builder.addCase(getFirstImages.fulfilled, (state, action) => {
+		builder.addCase(getImages.fulfilled, (state, action) => {
 			state.images = action.payload
 		})
 		
-		builder.addCase(getFirstImages.rejected, (state, action) => {
+		builder.addCase(getImages.rejected, (state, action) => {
 			console.log('faild to load images ')
+		})
+		
+		builder.addCase(updateOrderBy.fulfilled, (state, action) => {
+			state.order_by = action.meta.arg.orderBy
+		})
+		
+		builder.addCase(updateOrderBy.rejected, (state, action) => {
+			console.log('faild to update display order')
 		})
 	}
 })

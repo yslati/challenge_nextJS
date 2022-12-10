@@ -7,7 +7,7 @@ export default function Item(item: any) {
 	
 	return (
 		<div className="w-full h-52 select-none mb-8">
-			<img className="w-full h-full object-cover rounded-lg" src={data.urls.small} alt={data.alt_description || " "} />
+			<img className="w-full h-full object-cover rounded-lg cursor-pointer" src={data.urls.small} alt={data.alt_description || " "} />
 			<div className='w-full flex items-center mt-2'>
 				<div className='flex items-center space-x-2 '>
 					<img className='rounded-full w-6 h-6 cursor-pointer' src={data.user.profile_image.small} alt="user profile picture" />

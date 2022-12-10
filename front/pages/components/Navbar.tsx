@@ -1,51 +1,60 @@
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/solid";
+import { useAppDispatch } from "../api/hooks";
+import { updateOrderBy } from "../api/imagesSlice";
+
+let nav_items = [
+	{
+		name: "All",
+		selected: true
+	},
+	{
+		name: "Animation",
+		selected: false
+	},
+	{
+		name: "Branding",
+		selected: false
+	},
+	{
+		name: "Ilustration",
+		selected: false
+	},
+	{
+		name: "Mobile",
+		selected: false
+	},
+	{
+		name: "Print",
+		selected: false
+	},
+	{
+		name: "Product design",
+		selected: false
+	},
+	{
+		name: "Topography",
+		selected: false
+	},
+	{
+		name: "Web design",
+		selected: false
+	},
+]
 
 export default function Navbar() {
 
-	let nav_items = [
-		{
-			name: "All",
-			selected: true
-		},
-		{
-			name: "Animation",
-			selected: false
-		},
-		{
-			name: "Branding",
-			selected: false
-		},
-		{
-			name: "Ilustration",
-			selected: false
-		},
-		{
-			name: "Mobile",
-			selected: false
-		},
-		{
-			name: "Print",
-			selected: false
-		},
-		{
-			name: "Product design",
-			selected: false
-		},
-		{
-			name: "Topography",
-			selected: false
-		},
-		{
-			name: "Web design",
-			selected: false
-		},
-	]
+	const dispatch = useAppDispatch()
+
+	function updateDisplay(value: string) {
+		dispatch(updateOrderBy({ orderBy: value }))
+	}
 
 	return (
 		<div className="w-full py-8 flex">
-			<select id="types" className="border border-gray-200 text-gray-900 text-sm font-semibold rounded-lg focus:border-gray-400 block px-3 py-2" aria-label="label for the select">
-				<option value="popular" defaultValue={"popular"}>Popular</option>
-				<option value="recent">Recent</option>
+			<select onChange={(e) => updateDisplay(e.target.value)} id="types" className="border border-gray-200 text-gray-900 text-sm font-semibold rounded-lg focus:border-gray-400 block px-3 py-2" aria-label="label for the select">
+				<option value="latest" defaultValue={"latest"}>Latest</option>
+				<option value="popular">Popular</option>
+				<option value="oldest">Oldest</option>
 			</select>
 			<div className='flex space-x-5 mx-auto items-center justify-center'>
 				{
