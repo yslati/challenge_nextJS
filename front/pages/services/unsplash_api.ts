@@ -1,10 +1,10 @@
 import Axios from "axios";
 // import Cookies from "js-cookie";
 
-export const url = "https://api.unsplash.com";
+const url = "https://api.unsplash.com";
 // let token_jwt = Cookies.get('token') || null;
 
-export const headers = {
+const headers = {
     'Accept': 'application/json', 
     'Content-Type': 'application/json',
     'authorization': 'Client-ID Tx-KbpHJ4IsJjp6qgMnsN9zYoJOygQOTtw9aDdcmHdE'
