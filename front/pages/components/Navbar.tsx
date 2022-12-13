@@ -24,7 +24,7 @@ export default function Navbar() {
 				<option value="popular">Popular</option>
 				<option value="oldest">Oldest</option>
 			</select>
-			<div className='hidden lg:flex space-x-5 mx-auto items-center justify-center'>
+			<div className='hidden lg:flex space-x-6 mx-auto items-center justify-center'>
 				<button onClick={() => handleTopicChange("All")} className={topic_selected !== "All" ? "font-semibold text-center text-gray-500" : " font-semibold text-center text-black bg-gray-100 px-2 py-1 rounded"}>
 					All
 				</button>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../services/unsplash_api";
+import api, { apiData } from "../services/unsplash_api";
 
 
 export const getImages = createAsyncThunk(
@@ -97,11 +97,12 @@ export const updatePageNumber = createAsyncThunk(
 
 export const likeImage = createAsyncThunk(
 	'images/likeImage',
-	async ({ imageId } : { imageId: string }, _api) => {
+	async ({ imagesData, imageId } : { imagesData: any, imageId: string }, _api) => {
 		try {
-			let res = await api.post(`/photos/${imageId}/like`)
-			_api.fulfillWithValue(res.data)
-			return res.data
+			let res = await apiData.post(`/photos/${imageId}/like`)
+			imagesData = imagesData.map(img => img.id !== res.data?.photo.id ? img : res.data?.photo)
+			_api.fulfillWithValue(imagesData)
+			return imagesData
 		} catch (error: any) {
 			_api.rejectWithValue(error.message)
 			return error.message
@@ -111,11 +112,12 @@ export const likeImage = createAsyncThunk(
 
 export const unlikeImage = createAsyncThunk(
 	'images/unlikeImage',
-	async ({ imageId } : { imageId: string }, _api) => {
+	async ({ imagesData, imageId } : { imagesData: any, imageId: string }, _api) => {
 		try {
-			let res = await api.delete(`/photos/${imageId}/like`)
-			_api.fulfillWithValue(res.data)
-			return res.data
+			let res = await apiData.delete(`/photos/${imageId}/like`)
+			imagesData = imagesData.map(img => img?.id !== res.data?.photo.id ? img : res.data?.photo)
+			_api.fulfillWithValue(imagesData)
+			return imagesData
 		} catch (error: any) {
 			_api.rejectWithValue(error.message)
 			return error.message
@@ -133,9 +135,9 @@ export const imagesSlice = createSlice({
 		page_number: 1
 	},
 	reducers: {
-		load: (state, action) => {
-			state.images = action.payload
-		},
+		// load: (state, action) => {
+		// 	state.images = action.payload
+		// },
 
 	},
 	extraReducers: (builder) => {
@@ -194,14 +196,15 @@ export const imagesSlice = createSlice({
 		})
 
 		builder.addCase(likeImage.fulfilled, (state, action) => {
-			console.log("like");
+			state.images = action.payload
 		})
 		
 		builder.addCase(likeImage.rejected, (state, action) => {
 			console.log('faild to like image')
 		})
-
+		
 		builder.addCase(unlikeImage.fulfilled, (state, action) => {
+			state.images = action.payload
 		})
 		
 		builder.addCase(unlikeImage.rejected, (state, action) => {

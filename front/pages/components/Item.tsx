@@ -1,20 +1,21 @@
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/solid"
-import { useAppDispatch } from "../api/hooks"
+import { useAppDispatch, useAppSelector } from "../api/hooks"
 import { likeImage, unlikeImage } from "../api/imagesSlice"
 import { nFormater } from "./Functions"
 
 export default function Item(item: any) {
 
 	const dispatch = useAppDispatch()
+	const images = useAppSelector(state => state.images.images)
 
 	let data = item.data
 
 	const handleLikeImage = () => {
-		data?.id && dispatch(likeImage({ imageId: data?.id }))
+		data?.id && dispatch(likeImage({ imagesData: images, imageId: data?.id }))
 	}
 	
 	const handleUnlikeImage = () => {
-		data?.id && dispatch(unlikeImage({ imageId: data?.id }))
+		data?.id && dispatch(unlikeImage({ imagesData: images, imageId: data?.id }))
 	}
 
 	return (
