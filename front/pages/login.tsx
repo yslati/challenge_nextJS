@@ -1,6 +1,29 @@
 import Head from 'next/head'
+import { NextPage } from 'next'
+import { FormEventHandler, useState } from 'react'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
-export default function login() {
+const login:NextPage = () => {
+
+	const [userInfo, setUserInfo] = useState({ email: "", password: "" })
+	const route = useRouter()
+
+	const handleSubmit:FormEventHandler<HTMLFormElement> = async (e) => {
+		if (!userInfo.email || !userInfo.password)
+			return
+		e.preventDefault()
+		const res = await signIn('credentials', {
+			email: userInfo.email,
+			password: userInfo.password,
+			redirect: false
+		});
+		
+		setUserInfo({email:"", password:""})
+		console.log(res);
+		// route.push('/home')
+	}
+
 	return (
 	<div>
 		<Head>
@@ -16,18 +39,18 @@ export default function login() {
 						Welcome Back! Please enter your details.
 					</h2>
 					<div className="mt-6">
-					<form className="space-y-6" action="#">
+					<form className="space-y-6" action="#" onSubmit={handleSubmit}>
 						<div>
 							<label className="text-sm font-medium text-gray-900 block mb-2">
 								Email
 							</label>
-							<input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter your email" required />
+							<input onChange={({ target }) => setUserInfo({...userInfo, email: target.value})} value={userInfo.email} type="text" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter your email or username" required />
 						</div>
 						<div>
 							<label className="text-sm font-medium text-gray-900 block mb-2">
 								Password
 							</label>
-							<input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+							<input onChange={({ target }) => setUserInfo({...userInfo, password: target.value})} value={userInfo.password} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
 						</div>
 						<div className="flex items-start">
 							<div className="flex items-start">
@@ -84,3 +107,5 @@ export default function login() {
 	</div>
 	)
 }
+
+export default login;
