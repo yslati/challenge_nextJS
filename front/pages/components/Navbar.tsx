@@ -1,6 +1,7 @@
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from "../api/hooks";
-import { updateOrderBy, updateSelectedTopic } from "../api/imagesSlice";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
+import { signOut } from "next-auth/react";
+import { useAppDispatch, useAppSelector } from "../provider/hooks";
+import { updateOrderBy, updateSelectedTopic } from "../provider/imagesSlice";
 
 export default function Navbar() {
 
@@ -15,6 +16,10 @@ export default function Navbar() {
 
 	const handleTopicChange = (topic: string) => {
 		dispatch(updateSelectedTopic({ topic }))
+	}
+
+	const logout = async () => {
+		await signOut()
 	}
 
 	return (
@@ -37,9 +42,9 @@ export default function Navbar() {
 					})
 				}
 			</div>
-			<button className='flex ml-auto lg:ml-0 cursor-pointer items-center border border-gray-200 text-gray-900 text-sm rounded-lg focus:border-gray-400 px-3 py-2 ' type="button">
-				<AdjustmentsHorizontalIcon className='w-4 h-4 mr-2' />
-				<h2 className='font-semibold '>Filters</h2>
+			<button onClick={() => logout()} className='flex ml-auto lg:ml-0 cursor-pointer items-center border border-gray-200 text-gray-900 text-sm rounded-lg focus:border-gray-400 px-3 py-2 ' type="button">
+				<ArrowRightOnRectangleIcon className='w-4 h-4 mr-2' />
+				<h2 className='font-semibold '>Sign out</h2>
 			</button>
 			{/* <select id="filter" className="ml-auto border border-gray-200 text-gray-900 text-sm rounded-lg focus:border-gray-400 block px-3 py-2">
 				<AdjustmentsHorizontalIcon className='w-10 h-10 mr-1 bg-red-500' />

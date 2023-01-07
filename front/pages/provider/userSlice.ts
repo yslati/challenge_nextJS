@@ -13,6 +13,19 @@ export const setUser = createAsyncThunk(
 	}
 )
 
+export const loginStatus = createAsyncThunk(
+	'user/loginStatus',
+	async ({ status } : { status: string }, _api) => {
+		try {
+			_api.fulfillWithValue(status)
+			return status
+		} catch (error: any) {
+			_api.rejectWithValue(error.message)
+			return error.message
+		}
+	}
+)
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState: {
@@ -28,6 +41,9 @@ export const userSlice = createSlice({
 			console.log("payload: ", action.payload);
 			state.user = action.meta.arg.user
 			console.log("the: ", state.user);
+		})
+		builder.addCase(loginStatus.fulfilled, (state, action) => {
+			console.log(action.payload);
 		})
 	},	
 })

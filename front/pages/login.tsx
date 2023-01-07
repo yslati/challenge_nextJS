@@ -1,13 +1,17 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
-import { FormEventHandler, useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import { FormEventHandler, useEffect, useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import Router from 'next/router'
+import Loading from './components/Loading'
+import { toast } from 'react-toastify';
+
 
 const login:NextPage = () => {
 
 	const [userInfo, setUserInfo] = useState({ email: "", password: "" })
-	const route = useRouter()
+	const { status } = useSession()
+	const notify = () => toast("Wow so easy!");
 
 	const handleSubmit:FormEventHandler<HTMLFormElement> = async (e) => {
 		if (!userInfo.email || !userInfo.password)
@@ -18,12 +22,18 @@ const login:NextPage = () => {
 			password: userInfo.password,
 			redirect: false
 		});
+		console.log(res);
 		
 		setUserInfo({email:"", password:""})
-		console.log(res);
-		// route.push('/home')
 	}
 
+	useEffect(() => {
+		if (status === "authenticated")
+			Router.replace("/home")
+	}, [status])
+
+	if (status === "loading")
+		return <Loading />
 	return (
 	<div>
 		<Head>
@@ -70,7 +80,7 @@ const login:NextPage = () => {
 						<button type="submit" className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
 							Sign in
 						</button>
-						<button type="button" className="w-full flex items-center justify-center !mt-4 px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:border-gray-500 focus:border-gray-500">
+						<button onClick={() => notify()} type="button" className="w-full flex items-center justify-center !mt-4 px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:border-gray-500 focus:border-gray-500">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
 								className="w-5 h-5 mr-2" viewBox="0 0 48 48">
 								<defs>

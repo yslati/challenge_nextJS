@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from './api/hooks'
+import { useAppDispatch, useAppSelector } from './provider/hooks'
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid'
-import { getImages, getTopicImages, getTopics, updatePageNumber } from './api/imagesSlice'
+import { getImages, getTopicImages, getTopics, updatePageNumber } from './provider/imagesSlice'
 import Item from './components/Item'
 import Navbar from './components/Navbar'
 import { useSession } from "next-auth/react"
 import Router from "next/router";
+import Loading from './components/Loading'
 
 
 export default function Home() {
@@ -70,9 +71,5 @@ export default function Home() {
 				</div>
 			</div>
 		)
-	return(
-		<div className="w-screen h-screen flex items-center justify-center text-2xl text-gray-400 font-thin select-none ">
-			Loading...
-		</div>
-	)
+	return <Loading />
 } 

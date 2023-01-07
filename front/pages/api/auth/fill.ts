@@ -1,6 +1,7 @@
+import { NextRequest, NextResponse } from "next/server";
 import db from "../../utils/db";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextRequest, res: NextResponse) {
 	await db.open().then(() => {
 		db.put('muser1', {
 			username: "muser1",

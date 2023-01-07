@@ -1,8 +1,8 @@
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/solid"
 import axios from "axios"
 import { useSession } from "next-auth/react"
-import { useAppDispatch, useAppSelector } from "../api/hooks"
-import { likeImage, unlikeImage } from "../api/imagesSlice"
+import { useAppDispatch, useAppSelector } from "../provider/hooks"
+import { likeImage, unlikeImage } from "../provider/imagesSlice"
 import { nFormater } from "./Functions"
 
 export default function Item(item: any) {
@@ -14,16 +14,15 @@ export default function Item(item: any) {
 	let data = item.data
 
 	const handleLikeImage = () => {
-		console.log(session.data?.user);
-		axios.post(`http://localhost:3000/api/like/${data?.id}`, {
-			email: session.data?.user?.email,
-			imageId: data?.id
-		})
-		// data?.id && dispatch(likeImage({ imagesData: images, imageId: data?.id }))
+		// axios.post(`http://localhost:3000/api/like/${data?.id}`, {
+		// 	email: session.data?.user?.email,
+		// 	imageId: data?.id
+		// })
+		data?.id && dispatch(likeImage({ imagesData: images, imageId: data?.id }))
 	}
 	
 	const handleUnlikeImage = () => {
-		// data?.id && dispatch(unlikeImage({ imagesData: images, imageId: data?.id }))
+		data?.id && dispatch(unlikeImage({ imagesData: images, imageId: data?.id }))
 	}
 
 	return (
